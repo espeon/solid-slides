@@ -1,0 +1,226 @@
+/* solid-slides — view transition animations
+   These use data-transition and data-direction set on <html> before each navigation.
+   Falls back gracefully in browsers without View Transitions API support. */
+
+.slides-root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.slide-content {
+  width: 100%;
+  height: 100%;
+  view-transition-name: slide-content;
+}
+
+/* ── Slide transition ────────────────────────────────────────────── */
+
+html[data-transition='slide'][data-direction='forward']::view-transition-old(slide-content) {
+  animation: 380ms cubic-bezier(0.4, 0, 0.2, 1) both vt-slide-out-left;
+}
+html[data-transition='slide'][data-direction='forward']::view-transition-new(slide-content) {
+  animation: 380ms cubic-bezier(0.4, 0, 0.2, 1) both vt-slide-in-right;
+}
+html[data-transition='slide'][data-direction='backward']::view-transition-old(slide-content) {
+  animation: 380ms cubic-bezier(0.4, 0, 0.2, 1) both vt-slide-out-right;
+}
+html[data-transition='slide'][data-direction='backward']::view-transition-new(slide-content) {
+  animation: 380ms cubic-bezier(0.4, 0, 0.2, 1) both vt-slide-in-left;
+}
+
+/* ── Fade transition ─────────────────────────────────────────────── */
+
+html[data-transition='fade']::view-transition-old(slide-content) {
+  animation: 280ms ease both vt-fade-out;
+}
+html[data-transition='fade']::view-transition-new(slide-content) {
+  animation: 280ms ease both vt-fade-in;
+}
+
+/* ── Zoom transition ─────────────────────────────────────────────── */
+
+html[data-transition='zoom'][data-direction='forward']::view-transition-old(slide-content) {
+  animation: 320ms cubic-bezier(0.4, 0, 0.2, 1) both vt-zoom-out;
+}
+html[data-transition='zoom'][data-direction='forward']::view-transition-new(slide-content) {
+  animation: 320ms cubic-bezier(0.4, 0, 0.2, 1) both vt-zoom-in;
+}
+html[data-transition='zoom'][data-direction='backward']::view-transition-old(slide-content) {
+  animation: 320ms cubic-bezier(0.4, 0, 0.2, 1) both vt-zoom-in-reverse;
+}
+html[data-transition='zoom'][data-direction='backward']::view-transition-new(slide-content) {
+  animation: 320ms cubic-bezier(0.4, 0, 0.2, 1) both vt-zoom-out-reverse;
+}
+
+/* ── Keyframes ───────────────────────────────────────────────────── */
+
+@keyframes vt-slide-out-left {
+  to { transform: translateX(-100%); }
+}
+@keyframes vt-slide-in-right {
+  from { transform: translateX(100%); }
+}
+@keyframes vt-slide-out-right {
+  to { transform: translateX(100%); }
+}
+@keyframes vt-slide-in-left {
+  from { transform: translateX(-100%); }
+}
+@keyframes vt-fade-out {
+  to { opacity: 0; }
+}
+@keyframes vt-fade-in {
+  from { opacity: 0; }
+}
+@keyframes vt-zoom-out {
+  to { transform: scale(0.85); opacity: 0; }
+}
+@keyframes vt-zoom-in {
+  from { transform: scale(1.1); opacity: 0; }
+}
+@keyframes vt-zoom-in-reverse {
+  to { transform: scale(1.1); opacity: 0; }
+}
+@keyframes vt-zoom-out-reverse {
+  from { transform: scale(0.85); opacity: 0; }
+}
+
+/* ── Nav controls ────────────────────────────────────────────────── */
+
+.slides-nav {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+  padding: 0.4rem 1rem;
+  color: white;
+  font-size: 0.875rem;
+  z-index: 50;
+  view-transition-name: slides-nav;
+}
+
+.slides-nav-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  line-height: 1;
+  transition: background 0.15s;
+}
+.slides-nav-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.15);
+}
+.slides-nav-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.slides-nav-count {
+  min-width: 4rem;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.7;
+}
+
+/* ── Bar nav ─────────────────────────────────────────────────────── */
+
+.slides-nav-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  z-index: 50;
+  view-transition-name: slides-nav;
+}
+.slides-nav-bar:hover {
+  height: 5px;
+  transition: height 0.15s;
+}
+.slides-nav-bar-fill {
+  height: 100%;
+  background: rgba(255, 255, 255, 0.6);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+/* ── Dots nav ────────────────────────────────────────────────────── */
+
+.slides-nav-dots {
+  position: fixed;
+  bottom: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 50;
+  view-transition-name: slides-nav;
+}
+.slides-nav-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.25);
+  transition: background 0.2s, transform 0.2s, width 0.2s;
+}
+.slides-nav-dot:hover {
+  background: rgba(255, 255, 255, 0.5);
+  transform: scale(1.3);
+}
+.slides-nav-dot--active {
+  background: rgba(255, 255, 255, 0.9);
+  width: 18px;
+}
+
+/* ── Arrows nav ──────────────────────────────────────────────────── */
+
+.slides-nav-arrow {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(8px);
+  color: white;
+  font-size: 1.5rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 50;
+  transition: opacity 0.2s, background 0.2s;
+  opacity: 0.4;
+  view-transition-name: slides-nav;
+}
+.slides-nav-arrow:hover:not(:disabled) {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.6);
+}
+.slides-nav-arrow:disabled {
+  opacity: 0.1;
+  cursor: default;
+}
+.slides-nav-arrow--prev { left: 1rem; }
+.slides-nav-arrow--next { right: 1rem; }

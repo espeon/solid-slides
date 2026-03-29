@@ -1,0 +1,37 @@
+{
+  "name": "solid-slides",
+  "version": "0.1.0",
+  "description": "Flexible SolidJS presentation framework with URL state, per-slide steps, and CSS transitions",
+  "type": "module",
+  "license": "MIT",
+  "keywords": ["solid", "solidjs", "slides", "presentation", "deck"],
+  "sideEffects": ["**/*.css"],
+  "files": [
+    "dist",
+    "src"
+  ],
+  "exports": {
+    ".": {
+      "development": "./src/index.ts",
+      "solid": "./src/index.ts",
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "vite build",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@solidjs/router": ">=0.16",
+    "solid-js": ">=1.9"
+  },
+  "devDependencies": {
+    "@solidjs/router": "^0.16.1",
+    "solid-js": "^1.9.9",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.10",
+    "vite-plugin-dts": "^4.5.4",
+    "vite-plugin-solid": "^2.11.9"
+  }
+}
