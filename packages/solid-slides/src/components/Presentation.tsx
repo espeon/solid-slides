@@ -12,9 +12,6 @@ function resolveTransition(entry: SlideEntry, fallback: TransitionType): Transit
   return typeof entry === 'function' ? fallback : (entry.transition ?? fallback)
 }
 
-function resolveStepTransition(entry: SlideEntry, fallback: TransitionType): TransitionType {
-  return typeof entry === 'function' ? fallback : (entry.stepTransition ?? fallback)
-}
 
 function PresentationInner(props: PresentationProps) {
   const [params, setParams] = useSearchParams<{ slide: string; step: string }>()
@@ -71,11 +68,8 @@ function PresentationInner(props: PresentationProps) {
     const totalSteps = stepsForSlide(slide)
 
     if (step < totalSteps - 1) {
-      const entry = props.slides[slide]
-      const transition = resolveStepTransition(entry, props.stepTransition ?? 'fade')
-      applyViewTransition(transition, 'forward', () => {
-        setParams({ step: String(step + 1) })
-      })
+      // Step components handle their own CSS transitions — just update the param
+      setParams({ step: String(step + 1) })
     } else {
       goTo(slide + 1, 0)
     }
@@ -86,11 +80,7 @@ function PresentationInner(props: PresentationProps) {
     const step = currentStep()
 
     if (step > 0) {
-      const entry = props.slides[slide]
-      const transition = resolveStepTransition(entry, props.stepTransition ?? 'fade')
-      applyViewTransition(transition, 'backward', () => {
-        setParams({ step: step === 1 ? undefined : String(step - 1) })
-      })
+      setParams({ step: step === 1 ? undefined : String(step - 1) })
     } else {
       if (slide === 0) {
         if (props.loop) goTo(props.slides.length - 1)
