@@ -4,6 +4,15 @@
     --font-sans: "Cormorant Garamond", sans-serif;
 }
 
+/*
+ * Same fluid root font-size the package applies to .slides-root, but
+ * scoped to the whole demo page. Means slide content (Tailwind text-*
+ * classes) and the package's nav scale together.
+ */
+html {
+    font-size: clamp(0.15rem, 2vmin, 9.5rem);
+}
+
 html,
 body,
 #root {

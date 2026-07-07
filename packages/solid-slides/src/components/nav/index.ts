@@ -19,6 +19,15 @@ const variants: Record<NavVariant, Component | null> = {
   none: null,
 };
 
+/**
+ * Resolve the value of the `nav` prop on `<Presentation>` into a concrete
+ * {@link Component}, falling back to {@link Counter} when nothing was passed.
+ *
+ * @param nav - A built-in variant name, a custom component, or `undefined`.
+ * @returns The component to render, or `null` for the `"none"` variant.
+ *
+ * @internal
+ */
 export function resolveNav(
   nav: NavVariant | Component | undefined,
 ): Component | null {

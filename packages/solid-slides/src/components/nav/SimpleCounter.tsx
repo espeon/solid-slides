@@ -1,5 +1,11 @@
 import { usePresentationContext } from "../../context/PresentationContext";
 
+/**
+ * Minimal nav: just a `current / total` text label, no buttons. Pair with
+ * keyboard navigation or your own click handlers.
+ *
+ * @internal
+ */
 export function SimpleCounter() {
   const { currentSlide, totalSlides, prev, next, isFirst, isLast } =
     usePresentationContext();

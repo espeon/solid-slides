@@ -8,11 +8,22 @@ import { SlideRenderer } from './SlideRenderer'
 import { resolveNav } from './nav'
 import type { InternalPresentationContextValue, PresentationProps, SlideEntry, TransitionType } from '../types'
 
+/**
+ * Pick the transition to use for a given slide entry, falling back to the
+ * presentation-level default.
+ *
+ * @internal
+ */
 function resolveTransition(entry: SlideEntry, fallback: TransitionType): TransitionType {
   return typeof entry === 'function' ? fallback : (entry.transition ?? fallback)
 }
 
-
+/**
+ * Internal component rendered inside the router. Hosts the context, the
+ * keyboard handler, the view-transition orchestration, and the nav UI.
+ *
+ * @internal
+ */
 function PresentationInner(props: PresentationProps) {
   const [params, setParams] = useSearchParams<{ slide: string; step: string }>()
 
@@ -126,6 +137,24 @@ function PresentationInner(props: PresentationProps) {
   )
 }
 
+/**
+ * Root component for a presentation.
+ *
+ * Wraps the slide list in a router (hash by default), provides the
+ * presentation context, binds keyboard navigation, and renders the current
+ * slide plus the chosen nav UI.
+ *
+ * @param props - See {@link PresentationProps}.
+ *
+ * @example
+ * import { Presentation, type SlideEntry } from "solid-slides";
+ *
+ * const slides: SlideEntry[] = [TitleSlide, BodySlide, EndSlide];
+ *
+ * export default function App() {
+ *   return <Presentation slides={slides} transition="slide" nav="dots" />;
+ * }
+ */
 export function Presentation(props: PresentationProps) {
   if (props.router === null) {
     return <PresentationInner {...props} />

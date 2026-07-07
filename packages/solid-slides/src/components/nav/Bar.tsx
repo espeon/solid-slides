@@ -1,5 +1,12 @@
 import { usePresentationContext } from '../../context/PresentationContext'
 
+/**
+ * Full-width progress bar pinned to the bottom of the viewport. Click
+ * anywhere on it to jump to the corresponding slide. `ArrowLeft` /
+ * `ArrowRight` work when the bar is focused.
+ *
+ * Use as the value of `<Presentation nav="bar" />`.
+ */
 export function Bar() {
   const { currentSlide, totalSlides, goTo, prev, next } = usePresentationContext()
 
