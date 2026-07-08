@@ -5,18 +5,21 @@
 // Keyboard: arrow keys, space, Home/End. URL: ?slide=N.
 
 import { Presentation, usePresentationContext } from "solid-slides";
+import { c, center } from "./styles";
 
 const Title = () => (
-  <div style={{ display: "flex", "align-items": "center", "justify-content": "center", height: "100%", "background": "#0a0a0a", color: "white" }}>
-    <h1 style={{ "font-size": "4rem", margin: 0 }}>Hello</h1>
+  <div style={center}>
+    <h1 style={{ "font-size": "clamp(2.5rem, 5vw, 5rem)", margin: 0, "font-weight": 600 }}>
+      Hello
+    </h1>
   </div>
 );
 
 const Body = () => {
   const { totalSlides } = usePresentationContext();
   return (
-    <div style={{ display: "flex", "align-items": "center", "justify-content": "center", height: "100%", "background": "#0a0a0a", color: "white" }}>
-      <p style={{ "font-size": "1.25rem" }}>
+    <div style={center}>
+      <p style={{ "font-size": "clamp(1.1rem, 1.6vw, 1.6rem)", color: c.muted }}>
         A {totalSlides()}-slide deck. Refresh and you'll be back here.
       </p>
     </div>

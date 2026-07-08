@@ -1,66 +1,80 @@
-import { Show } from 'solid-js'
-import { useSteps, StepTransition } from 'solid-slides'
+import { Show, For } from "solid-js";
+import { useSteps, StepTransition } from "solid-slides";
+import {
+  SlideLayout,
+  Headline,
+  Lead,
+  CodeBlock,
+  Caption,
+} from "../components/slides";
+
+const steps = [
+  {
+    n: 0,
+    text: "This is always visible — step 0 is the default.",
+    muted: false,
+  },
+  {
+    n: 1,
+    text: "Space / → advances to the next step.",
+    muted: false,
+  },
+  {
+    n: 2,
+    text: "← goes back through steps before changing slides.",
+    muted: false,
+  },
+  {
+    n: 3,
+    text: "Step index is stored in the URL: ?step=3",
+    muted: true,
+  },
+];
 
 export function StepsSlide() {
-  const step = useSteps(4)
+  const step = useSteps(4);
 
   return (
-    <div class="h-full flex flex-col justify-center bg-zinc-950 text-white p-20 gap-8">
-      <div>
-        <div class="text-sm uppercase tracking-widest text-violet-400 font-mono mb-3">useSteps()</div>
-        <h2 class="text-4xl font-bold tracking-tight">Incremental reveals</h2>
+    <SlideLayout>
+      <Headline class="max-w-[18ch]">Incremental reveals</Headline>
+      <Lead class="mt-4 max-w-[55ch]">
+        Break a single slide into substeps. The URL tracks progress, and the
+        library handles back/forward for you.
+      </Lead>
+
+      <CodeBlock class="mt-8 max-w-2xl">
+        <span class="text-fg-subtle">{"// inside your slide component"}</span>
+        {"\n"}
+        <span class="text-accent">const</span>
+        <span class="text-fg"> step = </span>
+        <span class="text-accent">useSteps</span>
+        <span class="text-fg">(4)</span>
+      </CodeBlock>
+
+      <div class="flex flex-col gap-3 mt-8 max-w-2xl">
+        <For each={steps}>
+          {(s, i) => (
+            <StepTransition name={`step-item-${i()}`}>
+              <Show when={step() >= i()}>
+                <div
+                  class={`flex items-center gap-4 text-[clamp(1rem,1.4vw,1.35rem)] transition-opacity duration-500 ${
+                    s.muted ? "text-fg-subtle" : "text-fg"
+                  }`}
+                >
+                  <span class="w-8 h-8 rounded-full bg-bg-strong border border-border flex items-center justify-center text-sm font-semibold shrink-0 text-accent">
+                    {s.n}
+                  </span>
+                  <span>{s.text}</span>
+                </div>
+              </Show>
+            </StepTransition>
+          )}
+        </For>
       </div>
 
-      <div class="font-mono text-sm bg-zinc-900 rounded-xl p-6 border border-zinc-800 leading-relaxed">
-        <span class="text-zinc-500">{'// inside your slide component'}</span>
-        <br />
-        <span class="text-cyan-400">const</span>
-        <span class="text-white"> step = </span>
-        <span class="text-violet-400">useSteps</span>
-        <span class="text-white">(4)</span>
-      </div>
-
-      <div class="flex flex-col gap-3">
-        <StepTransition name="step-item-0">
-          <Show when={step() >= 0}>
-            <div class="flex items-center gap-3 text-lg">
-              <span class="w-7 h-7 rounded-full bg-violet-500 flex items-center justify-center text-sm font-bold shrink-0">0</span>
-              <span>This is always visible — step 0 is the default</span>
-            </div>
-          </Show>
-        </StepTransition>
-
-        <StepTransition name="step-item-1">
-          <Show when={step() >= 1}>
-            <div class="flex items-center gap-3 text-lg">
-              <span class="w-7 h-7 rounded-full bg-cyan-500 flex items-center justify-center text-sm font-bold shrink-0">1</span>
-              <span>Space / → advances to the next step</span>
-            </div>
-          </Show>
-        </StepTransition>
-
-        <StepTransition name="step-item-2">
-          <Show when={step() >= 2}>
-            <div class="flex items-center gap-3 text-lg">
-              <span class="w-7 h-7 rounded-full bg-emerald-500 flex items-center justify-center text-sm font-bold shrink-0">2</span>
-              <span>← goes back through steps before changing slides</span>
-            </div>
-          </Show>
-        </StepTransition>
-
-        <StepTransition name="step-item-3">
-          <Show when={step() >= 3}>
-            <div class="flex items-center gap-3 text-lg text-zinc-400">
-              <span class="w-7 h-7 rounded-full bg-zinc-600 flex items-center justify-center text-sm font-bold shrink-0">3</span>
-              <span>Step index is stored in the URL: <code class="text-violet-300">?step=3</code></span>
-            </div>
-          </Show>
-        </StepTransition>
-      </div>
-
-      <div class="text-zinc-600 text-sm font-mono">
-        current step: <span class="text-violet-400">{step()}</span> / 3
-      </div>
-    </div>
-  )
+      <Caption class="mt-10">
+        current step: <span class="text-accent font-medium">{step()}</span> / 3
+      </Caption>
+    </SlideLayout>
+  );
 }

@@ -1,5 +1,11 @@
 import { For } from 'solid-js'
 import { useSlideParam } from 'solid-slides'
+import {
+  SlideLayout,
+  Headline,
+  Lead,
+  Caption,
+} from "../components/slides";
 
 const filters = ['all', 'frontend', 'backend', 'devops'] as const
 type Filter = (typeof filters)[number]
@@ -20,24 +26,21 @@ export function ParamsSlide() {
     filter() === 'all' ? items : items.filter((i) => i.tag === filter())
 
   return (
-    <div class="h-full flex flex-col justify-center bg-zinc-950 text-white p-20 gap-8">
-      <div>
-        <div class="text-sm uppercase tracking-widest text-cyan-400 font-mono mb-3">useSlideParam()</div>
-        <h2 class="text-4xl font-bold tracking-tight">Per-slide URL state</h2>
-        <p class="text-zinc-400 mt-2">
-          Params live in the URL and are cleaned up when you leave the slide.
-        </p>
-      </div>
+    <SlideLayout>
+      <Headline class="max-w-[18ch]">Per-slide URL state</Headline>
+      <Lead class="mt-4 max-w-[55ch]">
+        Params live in the URL and are cleaned up when you leave the slide.
+      </Lead>
 
-      <div class="flex gap-2">
+      <div class="flex flex-wrap gap-2 mt-8">
         <For each={filters}>
           {(f) => (
             <button
               onClick={() => setFilter(f)}
-              class={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
+              class={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors border ${
                 filter() === f
-                  ? 'bg-cyan-500 text-white'
-                  : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700'
+                  ? 'bg-accent text-fg-inverted border-accent'
+                  : 'bg-bg-elevated text-fg-muted border-border hover:border-border-strong hover:text-fg'
               }`}
             >
               {f}
@@ -46,22 +49,22 @@ export function ParamsSlide() {
         </For>
       </div>
 
-      <ul class="grid grid-cols-3 gap-3">
+      <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-6 max-w-4xl">
         <For each={visible()}>
           {(item) => (
-            <li class="bg-zinc-900 border border-zinc-800 rounded-lg px-4 py-3 text-sm">
-              <div class="text-white">{item.label}</div>
-              <div class="text-zinc-500 text-xs mt-1 font-mono">{item.tag}</div>
+            <li class="bg-bg-elevated border border-border rounded-xl px-5 py-4">
+              <div class="text-fg font-medium">{item.label}</div>
+              <div class="text-fg-subtle text-xs mt-1 font-sans">{item.tag}</div>
             </li>
           )}
         </For>
       </ul>
 
-      <div class="text-zinc-600 text-sm font-mono">
-        URL: <span class="text-cyan-400">?slide=3&amp;filter={filter()}</span>
+      <Caption class="mt-10">
+        URL: <span class="text-accent font-medium">?slide=3&amp;filter={filter()}</span>
         {' · '}
-        <span class="text-zinc-500">navigating away clears ?filter</span>
-      </div>
-    </div>
+        navigating away clears ?filter
+      </Caption>
+    </SlideLayout>
   )
 }

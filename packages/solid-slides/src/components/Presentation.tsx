@@ -61,7 +61,7 @@ function PresentationInner(props: PresentationProps) {
 
     const direction = clamped >= currentSlide() ? 'forward' : 'backward'
     const entry = props.slides[clamped]
-    const transition = resolveTransition(entry, props.transition ?? 'slide')
+    const transition = resolveTransition(entry, props.transition ?? 'fade')
     const oldSlide = currentSlide()
 
     applyViewTransition(transition, direction, () => {
@@ -152,7 +152,7 @@ function PresentationInner(props: PresentationProps) {
  * const slides: SlideEntry[] = [TitleSlide, BodySlide, EndSlide];
  *
  * export default function App() {
- *   return <Presentation slides={slides} transition="slide" nav="dots" />;
+ *   return <Presentation slides={slides} nav="dots" />;
  * }
  */
 export function Presentation(props: PresentationProps) {

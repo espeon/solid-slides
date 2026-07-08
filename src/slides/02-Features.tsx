@@ -1,32 +1,46 @@
-import { Show } from 'solid-js'
-import { useSteps } from 'solid-slides'
+import { useSteps } from "solid-slides";
+import {
+  SlideLayout,
+  Headline,
+  FeatureGrid,
+  type Feature,
+} from "../components/slides";
 
-const features = [
-  { icon: '🔗', title: 'URL state', desc: 'Slide + step index live in the URL. Deep-linkable by default.' },
-  { icon: '🪜', title: 'Per-slide steps', desc: 'Reveal content incrementally with useSteps(n).' },
-  { icon: '✨', title: 'CSS transitions', desc: 'View Transitions API — slide, fade, zoom. Per-slide overrides.' },
-  { icon: '🧩', title: 'Composable', desc: 'useSlideParam() for per-slide URL params, auto-cleaned on leave.' },
-]
+import LinkIcon from "~icons/lucide/link";
+import LayersIcon from "~icons/lucide/layers";
+import SparklesIcon from "~icons/lucide/sparkles";
+import PuzzleIcon from "~icons/lucide/puzzle";
+
+const features: Feature[] = [
+  {
+    Icon: LinkIcon,
+    title: "URL state",
+    description: "Slide and step index live in the URL. Deep-linkable by default.",
+  },
+  {
+    Icon: LayersIcon,
+    title: "Per-slide steps",
+    description: "Reveal content incrementally with useSteps(n).",
+  },
+  {
+    Icon: SparklesIcon,
+    title: "View transitions",
+    description: "Slide, fade, zoom. Override per slide if you want.",
+  },
+  {
+    Icon: PuzzleIcon,
+    title: "Composable",
+    description: "useSlideParam() for typed per-slide URL params, auto-cleaned on leave.",
+  },
+];
 
 export function FeaturesSlide() {
-  const step = useSteps(features.length)
+  const step = useSteps(features.length);
 
   return (
-    <div class="h-full flex flex-col justify-center bg-zinc-950 text-white p-20 gap-10">
-      <h2 class="text-4xl font-bold tracking-tight">What's in the box</h2>
-      <ul class="grid grid-cols-2 gap-6">
-        {features.map((f, i) => (
-          <Show when={step() >= i}>
-            <li class="flex gap-4 items-start bg-zinc-900 rounded-xl p-5 border border-zinc-800">
-              <span class="text-3xl">{f.icon}</span>
-              <div>
-                <div class="font-semibold text-white">{f.title}</div>
-                <div class="text-zinc-400 text-sm mt-1">{f.desc}</div>
-              </div>
-            </li>
-          </Show>
-        ))}
-      </ul>
-    </div>
-  )
+    <SlideLayout>
+      <Headline class="max-w-[20ch]">What's in the box</Headline>
+      <FeatureGrid features={features} visibleCount={step() + 1} />
+    </SlideLayout>
+  );
 }

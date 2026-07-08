@@ -38,7 +38,7 @@ The root component. Wraps the slide list in a router, provides the presentation 
 ```tsx
 <Presentation
   slides={[...]}
-  transition="slide"      // "slide" | "fade" | "zoom" | "none", default "slide"
+  transition="fade"        // "slide" | "fade" | "zoom" | "none", default "fade"
   nav="counter"            // variant name, custom Component, or "none"
   loop={false}             // wrap at the ends
   router="hash"            // "hash" | "memory" | null

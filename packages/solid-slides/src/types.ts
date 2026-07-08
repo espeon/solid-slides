@@ -72,7 +72,7 @@ export interface PresentationProps {
   /**
    * Default slide-to-slide transition. Individual slides can override this
    * with a {@link SlideDefinition} that sets `transition`.
-   * @defaultValue "slide"
+   * @defaultValue "fade"
    */
   transition?: TransitionType;
   /** Reserved for future use. Currently has no effect. */

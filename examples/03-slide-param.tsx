@@ -8,6 +8,7 @@
 
 import { For } from "solid-js";
 import { Presentation, useSlideParam, type SlideEntry } from "solid-slides";
+import { c, center } from "./styles";
 
 type Filter = "all" | "frontend" | "backend";
 
@@ -31,8 +32,18 @@ const FilterSlide = () => {
     filter() === "all" ? items : items.filter((i) => i.tag === filter());
 
   return (
-    <div style={{ padding: "4rem", height: "100%", background: "#0a0a0a", color: "white", "box-sizing": "border-box" }}>
-      <h2 style={{ "font-size": "2rem", "margin-bottom": "1.5rem" }}>Filter the list</h2>
+    <div
+      style={{
+        padding: "clamp(2rem, 5vw, 5rem)",
+        height: "100%",
+        background: c.bg,
+        color: c.fg,
+        "box-sizing": "border-box",
+      }}
+    >
+      <h2 style={{ "font-size": "clamp(1.75rem, 3.5vw, 3.5rem)", margin: "0 0 1.5rem", "font-weight": 600 }}>
+        Filter the list
+      </h2>
 
       <div style={{ display: "flex", gap: "0.5rem", "margin-bottom": "1.5rem" }}>
         <For each={filters}>
@@ -42,10 +53,11 @@ const FilterSlide = () => {
               style={{
                 padding: "0.4rem 0.9rem",
                 "border-radius": "9999px",
-                border: "none",
+                border: `1px solid ${filter() === f ? c.accent : c.border}`,
                 cursor: "pointer",
-                background: filter() === f ? "#06b6d4" : "#27272a",
-                color: filter() === f ? "white" : "#a1a1aa",
+                background: filter() === f ? c.accent : c.elevated,
+                color: filter() === f ? c.bg : c.muted,
+                "font-weight": 500,
               }}
             >
               {f}
@@ -54,27 +66,38 @@ const FilterSlide = () => {
         </For>
       </div>
 
-      <ul style={{ "list-style": "none", padding: 0, display: "grid", "grid-template-columns": "repeat(2, 1fr)", gap: "0.75rem" }}>
+      <ul style={{ "list-style": "none", padding: 0, display: "grid", "grid-template-columns": "repeat(2, 1fr)", gap: "0.75rem", "max-width": "50rem" }}>
         <For each={visible()}>
           {(item) => (
-            <li style={{ background: "#18181b", padding: "0.75rem 1rem", "border-radius": "0.5rem" }}>
-              <div>{item.label}</div>
-              <div style={{ "font-size": "0.75rem", opacity: 0.5, "font-family": "monospace" }}>{item.tag}</div>
+            <li
+              style={{
+                background: c.elevated,
+                border: `1px solid ${c.border}`,
+                padding: "0.75rem 1rem",
+                "border-radius": "0.75rem",
+              }}
+            >
+              <div style={{ color: c.fg, "font-weight": 500 }}>{item.label}</div>
+              <div style={{ "font-size": "0.75rem", color: c.subtle, "margin-top": "0.25rem" }}>
+                {item.tag}
+              </div>
             </li>
           )}
         </For>
       </ul>
 
-      <p style={{ "margin-top": "1.5rem", "font-family": "monospace", "font-size": "0.85rem", opacity: 0.5 }}>
-        URL: ?filter={filter()} (cleared when you leave this slide)
+      <p style={{ "margin-top": "1.5rem", "font-size": "0.85rem", color: c.muted }}>
+        URL: <span style={{ color: c.accent }}>?filter={filter()}</span> (cleared when you leave this slide)
       </p>
     </div>
   );
 };
 
 const Outro = () => (
-  <div style={{ display: "flex", "align-items": "center", "justify-content": "center", height: "100%", background: "#0a0a0a", color: "white" }}>
-    <p>The ?filter param was cleared on the way here.</p>
+  <div style={center}>
+    <p style={{ "font-size": "clamp(1.1rem, 1.6vw, 1.6rem)", color: c.muted }}>
+      The ?filter param was cleared on the way here.
+    </p>
   </div>
 );
 

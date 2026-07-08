@@ -42,4 +42,6 @@ import Example from "./examples/02-steps";
 export default Example;
 ```
 
-Each example is self-contained. They have no shared state and no imports beyond `solid-slides` (and `solid-js` where needed for `<Show>` / `<For>`). Copy one, change the slide components, ship.
+Each example imports a small `styles.ts` file in this folder for colors and layout helpers. If you copy an example into your own project, either copy `styles.ts` alongside it or replace the imported values with your own palette.
+
+The styling uses warm OKLCH values and fluid sizing so the examples look polished without requiring Tailwind.

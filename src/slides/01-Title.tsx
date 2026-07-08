@@ -1,23 +1,21 @@
-import { usePresentationContext } from 'solid-slides'
+import { usePresentationContext } from "solid-slides";
+import { SlideLayout, Display, Lead, Caption } from "../components/slides";
 
 export function TitleSlide() {
-  const { totalSlides } = usePresentationContext()
+  const { totalSlides } = usePresentationContext();
 
   return (
-    <div class="h-full flex flex-col items-center justify-center bg-zinc-950 text-white gap-6 p-16">
-      <div class="text-sm uppercase tracking-widest text-zinc-500 font-mono">solid-slides</div>
-      <h1 class="text-6xl font-bold tracking-tight text-center">
-        Slides, but{' '}
-        <span class="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">
-          solid
-        </span>
-      </h1>
-      <p class="text-xl text-zinc-400 text-center max-w-lg">
-        SolidJS-powered presentations. URL state, per-slide steps, CSS transitions — all composable.
-      </p>
-      <div class="mt-8 text-zinc-600 text-sm">
+    <SlideLayout variant="title">
+      <Display>
+        Slides, but <em class="text-accent not-italic">solid</em>.
+      </Display>
+      <Lead class="mt-6">
+        SolidJS-powered presentations. URL state, per-slide steps, view
+        transitions — all composable.
+      </Lead>
+      <Caption class="mt-12 text-fg-subtle">
         {totalSlides()} slides · arrow keys or space to navigate
-      </div>
-    </div>
-  )
+      </Caption>
+    </SlideLayout>
+  );
 }

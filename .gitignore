@@ -23,6 +23,9 @@ app.config.timestamp_*.js
 # Temp
 gitignore
 
+# Screenshot tool output
+/screenshots
+
 # System Files
 .DS_Store
 Thumbs.db
